@@ -1,5 +1,13 @@
 {
-  "name": "package",
-  "version": "0.0.0",
-  "dependencies": {}
+  "name": "<%= projectName %>",
+  "description": "<%= description %>",
+  "version": "<%= version %>",
+  "author": {
+    "name": "<%= author.name %>",
+    "email": "<%= author.email %>"
+  },
+  "repository": "<%= repository %>",
+  "dependencies": {
+    "gulp": "^3.6.2"
+  }
 }
