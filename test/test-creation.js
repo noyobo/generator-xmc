@@ -20,8 +20,15 @@ describe('xmc generator', function () {
   it('creates expected files', function (done) {
     var expected = [
       // add files you expect to exist here.
+      'package.json',
       '.jshintrc',
-      '.editorconfig'
+      '.editorconfig',
+      '.gitignore',
+      'bower.json',
+      'app',
+      'app/index.js',
+      'mods',
+      'mods/index'
     ];
 
     helpers.mockPrompt(this.app, {
