@@ -26,9 +26,9 @@ var XmcGenerator = yeoman.generators.Base.extend({
   hello: function() {
     var done = this.async();
     // 呵呵哈哈
-    this.log("===========================");
-    this.log("欢迎使用虾米项目管理工具 xmc");
-    this.log("===========================\n");
+    this.log('===========================');
+    this.log('欢迎使用虾米项目管理工具 xmc');
+    this.log('===========================\n');
 
     done();
   },
@@ -68,7 +68,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.description = props.description;
       this.version = props.version;
       this.author = {
-        "name": props.author,
+        'name': props.author,
         'email': props.email
       };
       this.repository = props.repo;
@@ -80,7 +80,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
   app: function() {
     this.mkdir('app');
     this.mkdir('mods');
-    this.mkdir('mods/index')
+    this.mkdir('mods/index');
   },
 
   projectfiles: function() {
