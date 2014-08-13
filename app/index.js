@@ -26,9 +26,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
   hello: function() {
     var done = this.async();
     // 呵呵哈哈
-    this.log('===========================');
-    this.log('欢迎使用虾米项目管理工具 xmc');
-    this.log('===========================\n');
+    this.log(chalk.bold.red('欢迎使用虾米项目管理工具 xmc'));
 
     done();
   },
