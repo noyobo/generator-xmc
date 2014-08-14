@@ -1,0 +1,8 @@
+.DS_Store
+bower_components
+node_modules
+*/node_modules
+npm-debug.log
+*.swp
+.sw*
+.idea/*

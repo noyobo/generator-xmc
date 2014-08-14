@@ -6,7 +6,10 @@
     "name": "<%= author.name %>",
     "email": "<%= author.email %>"
   },
-  "repository": "<%= repository %>",
+  "repository": {
+    "type": "git",
+    "url": "<%= repository.url %>"
+  },
   "dependencies": {
     "gulp": "^3.6.2"
   }

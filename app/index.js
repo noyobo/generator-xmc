@@ -69,7 +69,9 @@ var XmcGenerator = yeoman.generators.Base.extend({
         'name': props.author,
         'email': props.email
       };
-      this.repository = props.repo;
+      this.repository = {
+        'url': props.repo
+      };
 
       done();
     }.bind(this));
