@@ -1,7 +1,7 @@
 {
   "name": "generator-xmc",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "version": "1.0.0",
+  "description": "Yeoman generator for Xmc",
   "license": "MIT",
   "main": "app/index.js",
   "repository": "noyobo/generator-xmc",
@@ -20,7 +20,8 @@
     "app"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "kissy"
   ],
   "dependencies": {
     "chalk": "^0.5.0",
