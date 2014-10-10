@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= packageName %> demo</title>
+    <link rel="stylesheet" href="../build/<%= pageName %>/index.css">
+</head>
+<body>
+  <h1><%= packageName %> 的 demo</h1>
+    <script src="http://g.tbcdn.cn/kissy/k/1.4.7/seed-min.js" data-config="{combine:true}"></script>
+    <script>
+        KISSY.config({
+            packages : {
+                '<%= packageName %>' : {
+                    combine: false,
+                    debug: true,
+                    path : '../build',
+                    ignorePackageNameInUri : true
+                }
+            }
+        })
+        KISSY.use('<%= packageName %>/<%= pageName %>/index', function(S, Index){
+            new Index();
+        })
+    </script>
+</body>
+</html>
