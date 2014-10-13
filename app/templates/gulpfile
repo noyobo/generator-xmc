@@ -2,6 +2,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var kmc = require('gulp-kmc');
+var kmd = require('gulp-kmd');
 var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
 var beautify = require('gulp-beautify');
@@ -62,16 +63,11 @@ gulp.task('xtpl', ['clean'], function() {
   gulp.src(paths.xtpl)
     .pipe(gulpXTemplate({
       wrap: 'kissy', // defaults to modulex. set to define compiled to define() or kissy to KISSY.add
-      compileConfig: {
-        isModule: 1, // defaults to 1. use native template require
-        catchError: false // defaults to false. whether to point to line of xtpl when exception occurs(impact performance)
-      },
-      // runtime:'', defaults to kg/xtemplate/x.y.z/runtime
-      suffix: '.xtpl', // defaults to .xtpl. transform xx.tpl -> xx.js
-      truncatePrefixLen: 0, //optional, remove the first length string of file path from generate code
       XTemplate: XTemplate // required. xtemplate module
     }))
-    // .pipe(uglify())
+    .pipe(kmd())
+    .pipe(kmc.convert())
+    .pipe(uglify())
     .pipe(gulp.dest('build'))
 });
 gulp.task('less', ['clean'], function() {
