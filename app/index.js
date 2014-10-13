@@ -22,7 +22,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
     var done = this.async();
     this.reposName = getReposName(this);
     // Have Yeoman greet the user.
-    this.log(chalk.bold.cyan("> 欢迎使用kissy 项目构建工具xmc!"));
+    this.log(chalk.bold.cyan("> 欢迎使用kissy 项目构建工具xmc!"), 'version:' ,chalk.yellow(this.pkg.version));
 
     var prompts = [{
       name: 'projectName',
