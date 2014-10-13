@@ -80,12 +80,14 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.dest.mkdir('src/home/style');
       this.dest.mkdir('src/home/images');
       this.dest.mkdir('src/home/mods');
+      this.dest.mkdir('src/home/views');
 
       var indexTemp = this.src.read('index.js');
       this.dest.write('src/home/index.js', template(indexTemp, this.prompts))
       var modTemp = this.src.read('mod.js');
       this.dest.write('src/home/mods/a.js', template(modTemp, this.prompts))
       this.src.copy('index.less', 'src/home/index.less');
+      this.src.copy('views.xtpl', 'src/home/views/hello.xtpl');
     },
 
     projectfiles: function() {

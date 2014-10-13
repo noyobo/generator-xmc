@@ -50,11 +50,13 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.dest.mkdir(this.pagePath + '/style');
       this.dest.mkdir(this.pagePath + '/images');
       this.dest.mkdir(this.pagePath + '/mods');
+      this.dest.mkdir(this.pagePath + '/views');
       var indexTemp = this.src.read('index.js');
       this.dest.write(this.pagePath + '/index.js', template(indexTemp, this.userPkg))
       var modTemp = this.src.read('mod.js');
       this.dest.write(this.pagePath + '/mods/a.js', template(modTemp, this.userPkg))
       this.src.copy('index.less', this.pagePath + '/index.less');
+      this.src.copy('views.xtpl', this.pagePath + '/views/hello.xtpl');
     },
     demofiles: function() {
       var demoTemp = this.src.read('demo.html');

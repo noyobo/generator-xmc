@@ -10,6 +10,8 @@ var less = require('gulp-less')
 var code = require('gulp-code');
 var replace = require('gulp-replace');
 var cssmin = require('gulp-cssmin')
+var XTemplate = require('xtemplate')
+var gulpXTemplate = require('gulp-xtemplate');
 
 var pkg = require('./package.json')
 
@@ -17,7 +19,8 @@ var paths = {
   src: './src',
   dest: './build',
   js: ['src/**/*.js', '!src/**/*-min.js'],
-  less: ['src/*/*.less', '!src/*/_*.less']
+  less: ['src/**/*.less', '!src/*/_*.less'],
+  xtpl: ['src/**/*.xtpl']
 };
 kmc.config({
   // depFilePath: 'mods-dep.js', //全局依赖文件关系，此处配置后下面的各个模块将不会再生成
@@ -55,6 +58,22 @@ gulp.task('uglify', ['kmc'], function() {
     }))
     .pipe(gulp.dest(paths.dest))
 });
+gulp.task('xtpl', ['clean'], function() {
+  gulp.src(paths.xtpl)
+    .pipe(gulpXTemplate({
+      wrap: 'kissy', // defaults to modulex. set to define compiled to define() or kissy to KISSY.add
+      compileConfig: {
+        isModule: 1, // defaults to 1. use native template require
+        catchError: false // defaults to false. whether to point to line of xtpl when exception occurs(impact performance)
+      },
+      // runtime:'', defaults to kg/xtemplate/x.y.z/runtime
+      suffix: '.xtpl', // defaults to .xtpl. transform xx.tpl -> xx.js
+      truncatePrefixLen: 0, //optional, remove the first length string of file path from generate code
+      XTemplate: XTemplate // required. xtemplate module
+    }))
+    // .pipe(uglify())
+    .pipe(gulp.dest('build'))
+});
 gulp.task('less', ['clean'], function() {
   return gulp
     .src(paths.less)
@@ -73,4 +92,4 @@ gulp.task('watch', function() {
       console.log('文件' + event.path + '有变更,运行uglify任务');
     });
 });
-gulp.task('default', ['less', 'uglify']);
+gulp.task('default', ['less', 'uglify', 'xtpl']);
