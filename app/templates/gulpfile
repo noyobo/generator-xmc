@@ -103,7 +103,7 @@ gulp.task('less', ['clean:css'], function() {
 });
 /********************************************/
 gulp.task('watch', function() {
-  gulp.watch(pathsConfig.js, ['uglify'])
+  gulp.watch(pathsConfig.js, ['kmc'])
     .on('change', function(event) {
       console.log('> 文件类型:'.green, path.extname(event.path).toUpperCase().yellow, '=>'.red, event.path.yellow, event.type)
     });
