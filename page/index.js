@@ -1,8 +1,8 @@
 'use strict';
-var util = require('util');
+// var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
+// var yosay = require('yosay');
 var chalk = require('chalk');
 var template = require('template')
 
@@ -19,13 +19,13 @@ var XmcGenerator = yeoman.generators.Base.extend({
     if (!this.userPkg) {
       this.log(chalk.bold.red('! 工程目录缺少:'), 'package.json');
       return false;
-    };
+    }
   },
   prompting: function() {
     var done = this.async();
     this.reposName = getReposName(this);
     // Have Yeoman greet the user.
-    this.log(chalk.bold.cyan("> Xmc 创建 page!"));
+    this.log(chalk.bold.cyan('> Xmc 创建 page!'));
     var prompts = [{
       name: 'pageName',
       message: 'page名称:',
@@ -35,14 +35,16 @@ var XmcGenerator = yeoman.generators.Base.extend({
 
     this.prompt(prompts, function(props) {
       this.pageName = props.pageName;
-      this.pageName && (this.pageName = this.pageName.trim());
       if (this.pageName) {
-        this.pagePath = 'src/' + this.pageName;
+        (this.pageName = this.pageName.trim())
+      }
+      if (this.pageName) {
+        this.pagePath = 'src/' + this.pageName
         this.userPkg.pageName = this.pageName
         done();
       } else {
         this.log(chalk.bold.red('! page名称不能为空'))
-      };
+      }
     }.bind(this));
   },
   writing: {

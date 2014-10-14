@@ -1,9 +1,11 @@
 'use strict';
 var path = require('path');
 var gulp = require('gulp');
+var colors = require('colors')
 var kmc = require('gulp-kmc');
 var kmd = require('gulp-kmd');
 var clean = require('gulp-clean');
+var copy = require('gulp-copy');
 var uglify = require('gulp-uglify');
 var beautify = require('gulp-beautify');
 var rename = require('gulp-rename');
@@ -12,11 +14,11 @@ var code = require('gulp-code');
 var replace = require('gulp-replace');
 var cssmin = require('gulp-cssmin')
 var XTemplate = require('xtemplate')
-var gulpXTemplate = require('gulp-xtemplate');
+var gulpXTemplate = require('gulp-xtemplate')
 
 var pkg = require('./package.json')
 
-var paths = {
+var pathsConfig = {
   src: './src',
   dest: './build',
   js: ['src/**/*.js', '!src/**/*-min.js'],
@@ -28,26 +30,32 @@ kmc.config({
   packages: [{
     name: pkg.packageName,
     combine: true,
-    base: paths.src
+    base: pathsConfig.src
   }]
 });
-
-gulp.task('clean', function() {
-  return gulp.src('build/')
-    .pipe(clean())
+/********************************************/
+gulp.task('clean:all', function() {
+  return gulp.src('build/').pipe(clean())
 });
-gulp.task('kmc', ['clean'], function() {
-  return gulp.src(paths.js)
+gulp.task('clean:css', function() {
+  return gulp.src('build/**/*.css').pipe(clean())
+});
+gulp.task('clean:xtpl', function() {
+  return gulp.src(['build/**/views/*.js']).pipe(clean())
+});
+gulp.task('clean:js', function() {
+  return gulp.src(['build/**/*.js', '!build/**/views/*.js']).pipe(clean())
+});
+/********************************************/
+gulp.task('kmc', ['clean:js'], function() {
+  return gulp.src(pathsConfig.js)
     .pipe(code.lint())
     .pipe(kmc.convert())
     .pipe(beautify({
       'indentSize': 2,
       'preserveNewlines': false
     }))
-    .pipe(gulp.dest(paths.dest))
-});
-gulp.task('uglify', ['kmc'], function() {
-  return gulp.src(['build/**/*.js', '!build/**/*-min.js'])
+    .pipe(gulp.dest(pathsConfig.dest))
     .pipe(replace(/@DEBUG@/g, ''))
     .pipe(uglify({
       'output': {
@@ -57,35 +65,59 @@ gulp.task('uglify', ['kmc'], function() {
     .pipe(rename({
       suffix: '-min'
     }))
-    .pipe(gulp.dest(paths.dest))
+    .pipe(gulp.dest(pathsConfig.dest))
 });
-gulp.task('xtpl', ['clean'], function() {
-  gulp.src(paths.xtpl)
+gulp.task('xtpl', ['clean:xtpl'], function() {
+  return gulp.src(pathsConfig.xtpl)
     .pipe(gulpXTemplate({
       wrap: 'kissy', // defaults to modulex. set to define compiled to define() or kissy to KISSY.add
       XTemplate: XTemplate // required. xtemplate module
     }))
     .pipe(kmd())
     .pipe(kmc.convert())
-    .pipe(uglify())
-    .pipe(gulp.dest('build'))
+    .pipe(beautify({
+      'indentSize': 2,
+      'preserveNewlines': false
+    }))
+    .pipe(gulp.dest(pathsConfig.dest))
+    .pipe(uglify({
+      'output': {
+        'ascii_only': true
+      }
+    }))
+    .pipe(rename({
+      suffix: '-min'
+    }))
+    .pipe(gulp.dest(pathsConfig.dest))
 });
-gulp.task('less', ['clean'], function() {
+gulp.task('less', ['clean:css'], function() {
   return gulp
-    .src(paths.less)
+    .src(pathsConfig.less)
     .pipe(less())
-    .pipe(gulp.dest(paths.dest))
+    .pipe(gulp.dest(pathsConfig.dest))
     .pipe(cssmin())
     .pipe(rename({
       suffix: '-min'
     }))
-    .pipe(gulp.dest(paths.dest))
+    .pipe(gulp.dest(pathsConfig.dest))
 });
-
+/********************************************/
 gulp.task('watch', function() {
-  gulp.watch(path.js, ['uglify'])
+  gulp.watch(pathsConfig.js, ['uglify'])
     .on('change', function(event) {
-      console.log('文件' + event.path + '有变更,运行uglify任务');
+      console.log('> 文件类型:'.green, path.extname(event.path).toUpperCase().yellow, '=>'.red, event.path.yellow, event.type)
+    });
+  gulp.watch(pathsConfig.less, ['less'])
+    .on('change', function(event) {
+      console.log('> 文件类型:'.green, path.extname(event.path).toUpperCase().yellow, '=>'.red, event.path.yellow, '发生', event.type)
+    });
+  gulp.watch(pathsConfig.xtpl, ['xtpl'])
+    .on('change', function(event) {
+      console.log('> 文件类型:'.green, path.extname(event.path).toUpperCase().yellow, '=>'.red, event.path.yellow, '发生', event.type)
     });
 });
-gulp.task('default', ['less', 'uglify', 'xtpl']);
+
+gulp.task('build', ['clean:all'], function() {
+  gulp.run(['kmc', 'less', 'xtpl']);
+});
+gulp.task('default', ['kmc', 'less', 'xtpl']);

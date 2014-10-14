@@ -1,8 +1,8 @@
 'use strict';
-var util = require('util');
+// var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
+// var yosay = require('yosay');
 var chalk = require('chalk');
 var template = require('template')
 
@@ -22,35 +22,56 @@ var XmcGenerator = yeoman.generators.Base.extend({
     var done = this.async();
     this.reposName = getReposName(this);
     // Have Yeoman greet the user.
-    this.log(chalk.bold.cyan("> 欢迎使用kissy 项目构建工具xmc!"), 'version:' ,chalk.yellow(this.pkg.version));
+    this.log(chalk.bold.cyan('> 欢迎使用kissy 项目构建工具xmc!'), '', chalk.yellow('v' + this.pkg.version));
 
     var prompts = [{
+      type: 'input',
       name: 'projectName',
-      message: '项目名称',
+      message: chalk.yellow('项目名称'),
       default: this.reposName
     }, {
+      type: 'input',
+      required: true,
       name: 'packageName',
-      message: 'KISSY包名',
-      default: this.reposName
+      message: chalk.yellow('KISSY PackageName') + chalk.green('<小写>'),
+      default: null,
+      validate: function(input) {
+        var done = this.async();
+        if (!/\b[a-z]+\b/.test(input)) {
+          done('必须为小写');
+          return;
+        }
+        done(true);
+      }
     }, {
       name: 'description',
-      message: '项目介绍',
+      message: chalk.yellow('项目介绍'),
       default: this.reposName + '是'
     }, {
+      type: 'input',
+      required: true,
       name: 'version',
-      message: '项目版本[x,y,z]',
-      default: '1.0.0'
+      message: chalk.yellow('项目版本') + chalk.green('<x,y,z>'),
+      default: '1.0.0',
+      validate: function(input) {
+        var done = this.async();
+        if (!/^\d+\.\d+\.\d+$/.test(input)) {
+          done('version 必须为 x.y.z');
+          return;
+        }
+        done(true);
+      }
     }, {
       name: 'author',
-      message: '作者名',
+      message: chalk.yellow('作者名'),
       default: 'yourname'
     }, {
       name: 'email',
-      message: '邮箱地址',
+      message: chalk.yellow('邮箱地址'),
       default: 'yourname@alibaba-inc.com'
     }, {
       name: 'repo',
-      message: 'gitLab仓库地址',
+      message: chalk.yellow('gitLab仓库地址'),
       default: null
     }];
 
@@ -98,7 +119,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
 
     packageJSON: function() {
       var packageTemp = this.src.read('_package.json');
-      var bowerTemp = this.src.read('_bower.json');
+      // var bowerTemp = this.src.read('_bower.json');
       this.dest.write('package.json', template(packageTemp, this.prompts))
       // this.dest.write('bower.json', template(bowerTemp, this.prompts))
     },
