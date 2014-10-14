@@ -31,14 +31,13 @@ var XmcGenerator = yeoman.generators.Base.extend({
       default: this.reposName
     }, {
       type: 'input',
-      required: true,
       name: 'packageName',
-      message: chalk.yellow('KISSY PackageName') + chalk.green('<小写>'),
-      default: null,
+      message: chalk.yellow('KISSY PackageName '),
+      default: this.reposName,
       validate: function(input) {
         var done = this.async();
-        if (!/\b[a-z]+\b/.test(input)) {
-          done('必须为小写');
+        if (!/\b[-a-z]+\b/.test(input)) {
+          done(chalk.red('Error: ') + chalk.gray('required ') + chalk.magenta('[-a-z]'));
           return;
         }
         done(true);
@@ -49,14 +48,13 @@ var XmcGenerator = yeoman.generators.Base.extend({
       default: this.reposName + '是'
     }, {
       type: 'input',
-      required: true,
       name: 'version',
-      message: chalk.yellow('项目版本') + chalk.green('<x,y,z>'),
+      message: chalk.yellow('项目版本 '),
       default: '1.0.0',
       validate: function(input) {
         var done = this.async();
         if (!/^\d+\.\d+\.\d+$/.test(input)) {
-          done('version 必须为 x.y.z');
+          done(chalk.red('Error: ') + chalk.gray('version required x.y.z'));
           return;
         }
         done(true);
