@@ -5,7 +5,7 @@ var yeoman = require('yeoman-generator');
 // var yosay = require('yosay');
 var chalk = require('chalk');
 var template = require('template')
-var updateNotifier = require('update-notifier');
+var update = require('update-npm');
 
 // 获取仓库目录名
 function getReposName(that) {
@@ -23,8 +23,8 @@ var XmcGenerator = yeoman.generators.Base.extend({
     var done = this.async();
     this.reposName = getReposName(this);
     // Have Yeoman greet the user.
-    var notifier = updateNotifier({packageName: this.pkg.name, packageVersion: this.pkg.version})
-    notifier.notify();
+    update.notify(this.pkg.name, this.pkg.version);
+
     this.log(chalk.bold.cyan('> 欢迎使用kissy 项目构建工具xmc!'), '', chalk.yellow('v' + this.pkg.version));
 
     var prompts = [{
@@ -122,7 +122,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
       var packageTemp = this.src.read('_package.json');
       // var bowerTemp = this.src.read('_bower.json');
       this.dest.write('package.json', template(packageTemp, this.prompts))
-      // this.dest.write('bower.json', template(bowerTemp, this.prompts))
+        // this.dest.write('bower.json', template(bowerTemp, this.prompts))
     },
 
     gulpfiles: function() {
