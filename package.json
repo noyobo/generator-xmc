@@ -4,6 +4,7 @@
   "description": "Yeoman generator for Xmc",
   "license": "MIT",
   "main": "app/index.js",
+  "preferGlobal": true,
   "repository": "noyobo/generator-xmc",
   "author": {
     "name": "大宝",
