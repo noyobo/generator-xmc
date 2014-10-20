@@ -1,17 +1,19 @@
 'use strict';
-var path = require('path');
-var gulp = require('gulp');
+var path = require('path')
+var gulp = require('gulp')
 var colors = require('colors')
-var kmc = require('gulp-kmc');
-var kmd = require('gulp-kmd');
-var clean = require('gulp-clean');
-var copy = require('gulp-copy');
-var uglify = require('gulp-uglify');
-var beautify = require('gulp-beautify');
-var rename = require('gulp-rename');
+var kmc = require('gulp-kmc')
+var kmd = require('gulp-kmd')
+var clean = require('gulp-clean')
+var copy = require('gulp-copy')
+var uglify = require('gulp-uglify')
+var jshint = require('gulp-jshint')
+var stylish = require('jshint-stylish')
+var beautify = require('gulp-beautify')
+var rename = require('gulp-rename')
 var less = require('gulp-less')
-var code = require('gulp-code');
-var replace = require('gulp-replace');
+var code = require('gulp-code')
+var replace = require('gulp-replace')
 var cssmin = require('gulp-cssmin')
 var XTemplate = require('xtemplate')
 var gulpXTemplate = require('gulp-xtemplate')
@@ -102,6 +104,13 @@ gulp.task('less', ['clean:css'], function() {
     .pipe(gulp.dest(pathsConfig.dest))
 });
 /********************************************/
+gulp.task('lint', function() {
+  return gulp
+    .src(['src/**/*.js', '!src/**/*min.js'])
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+})
+
 gulp.task('watch', function() {
   gulp.watch(pathsConfig.js, ['kmc'])
     .on('change', function(event) {
@@ -116,7 +125,7 @@ gulp.task('watch', function() {
       console.log('> 文件类型:'.green, path.extname(event.path).toUpperCase().yellow, '=>'.red, event.path.yellow, '发生', event.type)
     });
 });
-
+/*****************************************/
 gulp.task('build', ['clean:all'], function() {
   gulp.run(['kmc', 'less', 'xtpl']);
 });
