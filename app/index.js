@@ -13,6 +13,9 @@ function getReposName(that) {
   return path.basename(root);
 }
 
+var userName = require('git-user-name')
+var userMail = require('git-user-email')
+
 
 var XmcGenerator = yeoman.generators.Base.extend({
   initializing: function() {
@@ -35,7 +38,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
     }, {
       type: 'input',
       name: 'packageName',
-      message: chalk.yellow('KISSY PackageName '),
+      message: chalk.yellow('KISSY PackageName'),
       default: this.reposName,
       validate: function(input) {
         var done = this.async();
@@ -65,11 +68,11 @@ var XmcGenerator = yeoman.generators.Base.extend({
     }, {
       name: 'author',
       message: chalk.yellow('作者名'),
-      default: 'yourname'
+      default: userName || 'yourname'
     }, {
       name: 'email',
       message: chalk.yellow('邮箱地址'),
-      default: 'yourname@alibaba-inc.com'
+      default: userMail ||'yourname@alibaba-inc.com'
     }, {
       name: 'repo',
       message: chalk.yellow('gitLab仓库地址'),

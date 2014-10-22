@@ -10,6 +10,7 @@
   "scripts": {
     "test": "gulp lint"
   },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "<%= repository.url %>"
