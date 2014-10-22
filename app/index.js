@@ -70,7 +70,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
       name: 'style',
       message: chalk.yellow('样式语言'),
       default: 'scss',
-      choices:['scss', 'less']
+      choices: ['scss', 'less']
     }, {
       name: 'author',
       message: chalk.yellow('作者名'),
@@ -90,6 +90,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.prompts.projectName = props.projectName;
       this.prompts.packageName = props.packageName;
       this.prompts.description = props.description;
+      this.prompts.style = props.style;
       this.prompts.version = props.version;
       this.prompts.author = {
         'name': props.author,
@@ -108,7 +109,6 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.dest.mkdir('src');
       this.dest.mkdir('src/common');
       this.dest.mkdir('src/home');
-      this.dest.mkdir('src/home/style');
       this.dest.mkdir('src/home/images');
       this.dest.mkdir('src/home/mods');
       this.dest.mkdir('src/home/views');
@@ -117,8 +117,21 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.dest.write('src/home/index.js', template(indexTemp, this.prompts))
       var modTemp = this.src.read('mod.js');
       this.dest.write('src/home/mods/a.js', template(modTemp, this.prompts))
-      this.src.copy('index.less', 'src/home/index.less');
       this.src.copy('views.xtpl', 'src/home/views/hello.xtpl');
+    },
+
+    style: function() {
+      if (this.prompts.style === 'scss') {
+        this.dest.mkdir('src/home/scss');
+        this.dest.mkdir('src/home/images/i');
+        this.src.copy('scss/fav.png', 'src/home/images/i/fav.png');
+        this.src.copy('scss/faved.png', 'src/home/images/i/faved.png');
+        this.src.copy('scss/index.scss', 'src/home/index.scss');
+        this.src.copy('scss/_sprites.scss', 'src/home/images/_sprites.scss');
+      } else {
+        this.dest.mkdir('src/home/less');
+        this.src.copy('less/index.less', 'src/home/index.less');
+      }
     },
 
     projectfiles: function() {
@@ -135,7 +148,11 @@ var XmcGenerator = yeoman.generators.Base.extend({
     },
 
     gulpfiles: function() {
-      this.src.copy('gulpfile', 'gulpfile.js');
+      if (this.prompts.style === 'scss') {
+        this.src.copy('scss/gulpfile', 'gulpfile.js');
+      }else{
+        this.src.copy('less/gulpfile', 'gulpfile.js');
+      }
     },
 
     demofiles: function() {
