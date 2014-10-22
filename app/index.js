@@ -29,7 +29,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
     update.notify(this.pkg.name, this.pkg.version);
 
     this.log(chalk.bold.cyan('> 欢迎使用kissy 项目构建工具xmc!'), '', chalk.yellow('v' + this.pkg.version));
-
+    //@see:https://github.com/SBoudrias/Inquirer.js
     var prompts = [{
       type: 'input',
       name: 'projectName',
@@ -55,7 +55,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
     }, {
       type: 'input',
       name: 'version',
-      message: chalk.yellow('项目版本 '),
+      message: chalk.yellow('项目版本'),
       default: '1.0.0',
       validate: function(input) {
         var done = this.async();
@@ -66,13 +66,19 @@ var XmcGenerator = yeoman.generators.Base.extend({
         done(true);
       }
     }, {
+      type: 'list',
+      name: 'style',
+      message: chalk.yellow('样式语言'),
+      default: 'scss',
+      choices:['scss', 'less']
+    }, {
       name: 'author',
       message: chalk.yellow('作者名'),
       default: userName || 'yourname'
     }, {
       name: 'email',
       message: chalk.yellow('邮箱地址'),
-      default: userMail ||'yourname@alibaba-inc.com'
+      default: userMail || 'yourname@alibaba-inc.com'
     }, {
       name: 'repo',
       message: chalk.yellow('gitLab仓库地址'),
