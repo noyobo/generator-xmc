@@ -26,30 +26,35 @@ var XmcGenerator = yeoman.generators.Base.extend({
     this.reposName = getReposName(this);
     // Have Yeoman greet the user.
     this.log(chalk.bold.cyan('> Xmc 创建 page!'));
+    var style = this.userPkg.style;
+    if (!/(scss|less)/.test(style)) {
+      this.log(chalk.bold.red('Error:'), chalk.gray('package.json style 不存在或者不为 scss | less 请修改后重新运行!'));
+      return false;
+    }
     var prompts = [{
       name: 'pageName',
-      message: 'page名称:',
+      message: chalk.yellow('page名称'),
       default: '',
-      warning: ''
+      validate: function(input) {
+        var done = this.async();
+        if (!/\b[-a-z]+\b/.test(input)) {
+          done(chalk.red('Error: ') + chalk.gray('! page名称有误 ') + chalk.magenta('[-a-z]'));
+          return;
+        }
+        done(true);
+      }
     }];
 
     this.prompt(prompts, function(props) {
       this.pageName = props.pageName;
-      if (this.pageName) {
-        (this.pageName = this.pageName.trim())
-      }
-      if (this.pageName) {
-        this.pagePath = 'src/' + this.pageName
-        this.userPkg.pageName = this.pageName
-        done();
-      } else {
-        this.log(chalk.bold.red('! page名称不能为空'))
-      }
+
+      this.pagePath = 'src/' + this.pageName
+      this.userPkg.pageName = this.pageName
+      done();
     }.bind(this));
   },
   writing: {
     app: function() {
-      this.dest.mkdir(this.pagePath + '/style');
       this.dest.mkdir(this.pagePath + '/images');
       this.dest.mkdir(this.pagePath + '/mods');
       this.dest.mkdir(this.pagePath + '/views');
@@ -57,8 +62,23 @@ var XmcGenerator = yeoman.generators.Base.extend({
       this.dest.write(this.pagePath + '/index.js', template(indexTemp, this.userPkg))
       var modTemp = this.src.read('mod.js');
       this.dest.write(this.pagePath + '/mods/a.js', template(modTemp, this.userPkg))
-      this.src.copy('index.less', this.pagePath + '/index.less');
       this.src.copy('views.xtpl', this.pagePath + '/views/hello.xtpl');
+    },
+    style: function() {
+      var style = this.userPkg.style;
+      if (style === 'scss') {
+        this.dest.mkdir(this.pagePath + '/scss');
+        this.dest.mkdir(this.pagePath + '/images/i');
+        this.src.copy('scss/fav.png', this.pagePath + '/images/i/fav.png');
+        this.src.copy('scss/faved.png', this.pagePath + '/images/i/faved.png');
+        var scssT = this.src.read('scss/index.scss');
+        this.dest.write(this.pagePath + '/index.scss', template(scssT, this.userPkg))
+        var spriteT = this.src.read('scss/_sprites.scss');
+        this.dest.write(this.pagePath + '/images/_sprites.scss', template(spriteT, this.userPkg))
+      } else {
+        this.dest.mkdir(this.pagePath + '/less');
+        this.src.copy('less/index.less', this.pagePath + '/index.less');
+      }
     },
     demofiles: function() {
       var demoTemp = this.src.read('demo.html');
