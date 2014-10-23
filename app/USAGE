@@ -1,0 +1,7 @@
+Description:
+    xmc 创建一个基于KISSY 1.4.x 的项目
+
+Example:
+
+    yo xmc                      # 初始化一个项目
+    yo xmc:page                 # 创建一个项目Page

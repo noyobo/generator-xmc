@@ -167,6 +167,7 @@ var XmcGenerator = yeoman.generators.Base.extend({
     this.log(chalk.bold.green('> 初始化完毕'));
     this.log('> 运行 ' + chalk.bold.yellow('npm install') + ' 安装项目依赖');
     this.log('> 运行 ' + chalk.bold.yellow('yo xmc:page') + ' 创建页面');
+    this.log('> 运行 ' + chalk.bold.yellow('yo xmc -h') + ' 查看帮助');
   }
 });
 
