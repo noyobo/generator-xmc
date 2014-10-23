@@ -1,0 +1,25 @@
+{
+  "name": "generator-xmc-pages",
+  "version": "1.0.0",
+  "description": "generator-xmc-pages",
+  "main": "index.js",
+  "dependencies": {
+    "gitbook": "*"
+  },
+  "scripts": {
+    "test": "gitbook build -o ./docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noyobo/generator-xmc.git"
+  },
+  "keywords": [
+    "generator-xmc"
+  ],
+  "author": "noyobo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/noyobo/generator-xmc/issues"
+  },
+  "homepage": "https://github.com/noyobo/generator-xmc"
+}
