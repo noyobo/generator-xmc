@@ -2,4 +2,4 @@ generator-xmc
 =============
 
 
-[DOCS](docs/)
+[DOCS](../docs)
