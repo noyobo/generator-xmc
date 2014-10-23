@@ -25,6 +25,7 @@ var pathsConfig = {
   dest: './build',
   js: ['src/**/*.js', '!src/**/*-min.js'],
   scss: ['src/**/*.scss', '!src/**/_*.scss'],
+  images: ['src/*/images/*.*', '!src/*/images/_*.*'],
   xtpl: ['src/**/*.xtpl']
 };
 kmc.config({
@@ -103,7 +104,17 @@ gulp.task('scss', ['clean:css'], function() {
       suffix: '-min'
     }))
     .pipe(gulp.dest(pathsConfig.dest))
-});
+    .on('end', function() {
+      gulp.start(['copyImages'])
+    })
+})
+gulp.task('copyImages', function() {
+  return gulp
+    .src(pathsConfig.images)
+    .pipe(copy(pathsConfig.dest, {
+      prefix: 1
+    }))
+})
 /********************************************/
 gulp.task('lint', function() {
   return gulp
