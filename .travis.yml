@@ -7,10 +7,10 @@ before_install:
   - if [ "$currentfolder" != 'generator-xmc' ]; then cd .. && eval "mv $currentfolder generator-xmc" && cd generator-xmc; fi
 
 before_script:
-  - npm i coveralls istanbul mocha-lcov-reporter
+  - npm i coveralls istanbul mocha-lcov-reporter blanket
 
 after_script:
-  - npm run j
+  - npm run coveralls
 
 script:
   - npm test
