@@ -4,7 +4,7 @@
 
 [![npm version](http://img.shields.io/npm/v/generator-xmc.svg)](https://www.npmjs.org/package/generator-xmc)
 [![npm download](http://img.shields.io/npm/dm/generator-xmc.svg)](https://www.npmjs.org/package/generator-xmc)
-[![Build Status](https://secure.travis-ci.org/noyobo/generator-xmc.png?branch=master)](https://travis-ci.org/noyobo/generator-xmc)
+[![Build Status](https://travis-ci.org/noyobo/generator-xmc.svg)](https://travis-ci.org/noyobo/generator-xmc)
 
 
 [![NPM](https://nodei.co/npm/generator-xmc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-xmc/)

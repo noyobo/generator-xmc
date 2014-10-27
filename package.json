@@ -15,7 +15,15 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha && gulp lint"
+    "test": "mocha && gulp lint",
+    "b": "NODE_ENV=test YOURPACKAGE_COVERAGE=1 ./node_modules/.bin/mocha --require blanket --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js",
+    "coveralls": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+
+  },
+  "config": {
+    "blanket": {
+      "pattern": "test/test-app.js"
+    }
   },
   "files": [
     "app",
