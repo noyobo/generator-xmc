@@ -24,7 +24,6 @@
     "jshint-stylish": "~1.0.0",
     "gulp-clean": "~0.3.1",
     "gulp-compass-compile": "~1.0.0",
-    "gulp-code": "0.0.5",
     "gulp-copy": "0.0.2",
     "gulp-cssmin": "~0.1.6",
     "gulp-kmc": "0.0.29",

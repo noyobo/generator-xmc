@@ -12,7 +12,6 @@ var stylish = require('jshint-stylish')
 var beautify = require('gulp-beautify')
 var rename = require('gulp-rename')
 var less = require('gulp-less')
-var code = require('gulp-code')
 var replace = require('gulp-replace')
 var cssmin = require('gulp-cssmin')
 var XTemplate = require('xtemplate')
@@ -51,7 +50,6 @@ gulp.task('clean:js', function() {
 /********************************************/
 gulp.task('kmc', ['clean:js'], function() {
   return gulp.src(pathsConfig.js)
-    .pipe(code.lint())
     .pipe(kmc.convert())
     .pipe(beautify({
       'indentSize': 2,
