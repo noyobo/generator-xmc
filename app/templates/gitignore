@@ -7,3 +7,5 @@ npm-debug.log
 .sw*
 .idea/*
 *.log
+.sass-cache
+.svn
